@@ -239,11 +239,11 @@ function createInventoryTile(e) {
 
             console.log('player', game.player.mouseButtonAction, game.player.activeItem)
 
-            let iteminfoPopup = document.createElement('span')
-            iteminfoPopup.classList.add('iteminfo_popup')
-            iteminfoPopup.innerHTML = blockmap[parseInt(button.dataset.invBtnItemId)].name + ' (Complexity: ' + blockmap[parseInt(button.dataset.invBtnItemId)].complexity + ')'
+            // let iteminfoPopup = document.createElement('span')
+            // iteminfoPopup.classList.add('iteminfo_popup')
+            // iteminfoPopup.innerHTML = blockmap[parseInt(button.dataset.invBtnItemId)].name + ' (Complexity: ' + blockmap[parseInt(button.dataset.invBtnItemId)].complexity + ')'
 
-            button.appendChild(iteminfoPopup)
+            // button.appendChild(iteminfoPopup)
 
         });
 

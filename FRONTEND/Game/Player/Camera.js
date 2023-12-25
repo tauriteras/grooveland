@@ -35,7 +35,7 @@ class Camera {
         let cameraLeft = (game.camera.position.x - (game.cameraViewWidth));
         let cameraRight = (game.camera.position.x + (game.cameraViewWidth));
 
-        console.log('cam edges', cameraRight, cameraLeft)
+        // console.log('cam edges', cameraRight, cameraLeft)
 
         // if(game.player.goingRight && cameraRight < 99.8 ) {
         //     return;

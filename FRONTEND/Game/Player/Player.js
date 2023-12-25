@@ -4,6 +4,8 @@ import { game } from '../Index';
 import AudioEngine from '../AudioHandler/AudioEngine';
 import blockmap from '../Data/blockdata';
 
+import inventoryFile from '../Data/inventory.json'
+
 // import TextSprite from '@seregpie/three.text-sprite';
 
 class Player {
@@ -13,7 +15,7 @@ class Player {
 
         this.mouseButtonAction = 'punch';
 
-        this.inventory = [[1, 99999], [2, 99999], [3, 99999], [4, 99999], [5, 99999], [6, 99999], [7, 99999]]
+        this.inventory = inventoryFile;
         this.activeItem = 0;
         this.seedId = 0;
 
@@ -380,7 +382,7 @@ class Player {
 
                 if (collision === undefined) { return; }
 
-                console.log(collisionResults)
+                // console.log(collisionResults)
 
                 if (this.mouseButtonAction === 'consume'
                 && collision.name === 'Player') {
@@ -559,7 +561,8 @@ function breakBlock(block) {
 
     game.player.audioPlayer.init('../Audio/break_block.wav', false);
 
-    console.log(block)
+    // console.log(block)
+    // spawnDrops(this.clickedElement.object)
 
     // console.log(collision)
 
@@ -595,7 +598,6 @@ function breakBlock(block) {
         left: false,
         right: false
     };
-
 }
 
 function punchBlock(block) {
@@ -613,19 +615,145 @@ function punchBlock(block) {
 
     game.player.audioPlayer.init('../Audio/hit_block.wav', false);
 
+    for (let i = 0; i < game.world.punchedItems.length; i++ ) {
+        // console.log(game.world.punchedItems[i].id)
+
+        if (game.world.punchedItems[i].id === block.id) {
+
+            block.userData.lastPunched = Date.now()
+            return;
+        }
+
+        block.userData.lastPunched = Date.now()
+        game.world.punchedItems.push(block)
+
+    }
 
     updateBlockBreakingOverlay(block);
 
+    console.log(game.world.punchedItems)
+
     // console.log(block.userData)
 
-    if (block.userData.punchCount == block.userData.hardness) {
+    if (block.userData.punchCount === block.userData.hardness) {
 
-        breakBlock(block)
+        spawnDrops(block);
+        breakBlock(block);
 
     }
 
 }
 
+
+
+function spawnDrops(block) {
+
+    console.log('spawn', block)
+
+
+    let blockX = block.position.x
+    let blockY = block.position.y
+
+    let randInt = Math.floor(Math.random() * 100)
+
+    if (randInt <= 30) {
+        return;
+    }
+
+    if (randInt > 30 && randInt <= 60) {
+        spawnSeed(block, blockX, blockY)
+    }
+
+    if (randInt > 60) {
+        spawnBlock(block, blockX, blockY)
+    }
+
+
+    console.log('spawning drops for ', block, blockX, blockY, "randInt", randInt);
+    // spawnSeed(block, blockX, blockY)
+
+}
+
+function spawnSeed(block, x, y) {
+    console.log('spawn seed', block, x, y)
+
+    const seedGeometry = new THREE.PlaneGeometry(0.5, 0.5)
+    const seedMaterial = new THREE.MeshBasicMaterial({ 
+        map: new THREE.TextureLoader().load('../Images/Seeds/dirt_seed.png'),
+        transparent: true
+    });
+    const seed = new THREE.Mesh(seedGeometry, seedMaterial);
+
+    let randomizer = dropPositionRandomizer()
+    // console.log('randomizer',randomizer)
+
+    seed.position.x = (x + randomizer[0]);
+    seed.position.y = (y + randomizer[1]);
+    seed.position.z = 0.1
+
+    seed.userData.name = 'seed'
+
+    game.scene.add(seed)
+    game.world.droppedItems.push(seed)
+
+}
+
+function spawnBlock(block, x, y) {
+
+    // console.log('spawn seed', block, x, y)
+
+    const blockGeometry = new THREE.PlaneGeometry(0.5, 0.5)
+    const blockMaterial = new THREE.MeshBasicMaterial({ 
+        map: new THREE.TextureLoader().load('../Images/Blocks/dirt.png'),
+        transparent: true
+    });
+    const droppedBlock = new THREE.Mesh(blockGeometry, blockMaterial);
+
+    let randomizer = dropPositionRandomizer()
+    // console.log('randomizer',randomizer)
+
+    droppedBlock.position.x = (x + randomizer[0]);
+    droppedBlock.position.y = (y + randomizer[1]);
+    droppedBlock.position.z = 0.1
+
+    droppedBlock.userData.name = 'dropped_block'
+
+    game.scene.add(droppedBlock)
+    game.world.droppedItems.push(droppedBlock)
+    console.log('dropped', game.world.droppedItems)
+    // console.log(droppedBlock)
+
+    const mixer = new THREE.AnimationMixer(droppedBlock);
+    const clips = droppedBlock.animations;
+
+
+
+
+
+}
+
+function dropPositionRandomizer() {
+
+    let randomX = Math.random() * 0.25
+    let randomY = Math.random() * 0.25
+
+    let offsetX = directionRandomizer(randomX)
+    let offsetY = directionRandomizer(randomY)
+
+    return [offsetX, offsetY]
+
+}
+
+function  directionRandomizer(position) {
+   let seed = Math.floor(Math.random() * 100)
+
+   if (seed % 2 === 0) {
+        return position * -1;
+   }
+
+   return position;
+
+}
 
 
 export default Player;

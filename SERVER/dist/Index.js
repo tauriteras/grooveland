@@ -37,7 +37,6 @@ class Game {
           camera: null;
           this.cameraViewWidth = 0;
 
-
           this.delta = 0;
           world: null;
           scene: null;
@@ -294,6 +293,16 @@ document.addEventListener('pointerup', (event) => {
 
 });
 
+window.onresize = function () {
+
+     game.camera.aspect = window.innerWidth / window.innerHeight;
+     game.camera.updateProjectionMatrix();
+
+     game.renderer.setSize( window.innerWidth, window.innerHeight );
+
+};
+
+
 function animationLoop() {
 
      // console.log(game.player.position);
@@ -434,6 +443,10 @@ function animationLoop() {
      
      }
 
+     itemPicker();
+
+     droppedItemsAnimation();
+
      calculateCameraViewAreaWidth();
      camera.updatePos();
 
@@ -449,12 +462,53 @@ function animationLoop() {
 }
 
 function calculateCameraViewAreaWidth() {
+
      game.cameraViewWidth = game.camera.position.z + (Math.tan(37.5) * game.camera.position.z)
 
-     console.log('halfWidth', game.cameraViewWidth)
+     // console.log('halfWidth', game.cameraViewWidth)
 
      return;
 }
+
+function droppedItemsAnimation() {
+
+     // console.log('animating!')
+
+     for (let i = 0; i < game.world.droppedItems.length; i++) {
+
+          let randomNum = Math.floor(Math.random() * 100)
+
+          if (randomNum % 2 === 0) {
+
+               game.world.droppedItems[i].position.y += 1 * game.delta;
+
+               // console.log('even')
+
+               return;
+          }
+
+          game.world.droppedItems[i].position.y -= 1 * game.delta;
+
+          // console.log('odd')
+
+     }
+}
+
+function itemPicker() {
+
+     let playerCentre = new THREE.Vector3(game.player.position.x, game.player.position.y, 1);
+     let direction = new THREE.Vector3(0, 0, -1);
+     game.raycaster.set(playerCentre, direction);
+ 
+     let rawCollisions = game.raycaster.intersectObjects(game.scene.children);
+ 
+     console.log(rawCollisions)
+
+     // TODO
+     // Yles korjatud asjad inventorysse
+
+}
+
 
 export { game };
 

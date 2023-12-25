@@ -29,6 +29,9 @@ class World {
           this.blocks = [];
           this.backgroundBlocks = [];
 
+          this.droppedItems = [];
+          this.punchedItems = [];
+
      }
 
      unpackWorldDataAndThenLoad(worldData) {
@@ -158,6 +161,7 @@ function loadBlocks(blocks) {
 
           blockOBJECT.material.map = new THREE.TextureLoader().load(blockmap[blockID].texture);
 
+          blockOBJECT.userData.name = blockmap[blockID].name;
           blockOBJECT.userData.objectType = blockmap[blockID].type;
           blockOBJECT.userData.sub_type = blockmap[blockID].sub_type;
           blockOBJECT.userData.collides = blockmap[blockID].collides;
