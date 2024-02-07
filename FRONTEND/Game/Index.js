@@ -120,6 +120,18 @@ document.addEventListener('DOMContentLoaded', () => {
      
      });
 
+     document.addEventListener('exit-world-event', () => {
+
+          console.log('exit')
+
+          let world = game.scene.children
+
+          for (let i = 0; i < world.length; i++) {
+               game.scene.remove(world[i])
+          }
+
+     })
+
      game = new Game();
      game.game = game;
 
@@ -445,8 +457,6 @@ function animationLoop() {
 
      itemPicker();
 
-     droppedItemsAnimation();
-
      calculateCameraViewAreaWidth();
      camera.updatePos();
 
@@ -501,8 +511,24 @@ function itemPicker() {
      game.raycaster.set(playerCentre, direction);
  
      let rawCollisions = game.raycaster.intersectObjects(game.scene.children);
- 
-     console.log(rawCollisions)
+
+     for (let i = 0; i < rawCollisions.length; i++) {
+
+          let object = rawCollisions[i].object;
+
+          if (object.userData.name === 'dropped_block') {
+
+               game.scene.remove(object)
+
+          }
+
+          if (object.userData.name === 'dropped_seed') {
+
+               game.scene.remove(object)
+               
+          }
+
+     }
 
      // TODO
      // Yles korjatud asjad inventorysse

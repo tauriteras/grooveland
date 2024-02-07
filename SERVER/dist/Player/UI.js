@@ -9,7 +9,7 @@ class UI {
 
     load() {
         console.log('loading gui')
-        createInventoryTile();        
+        createInventoryTiles();        
     }
 
     openTextPopup() {
@@ -53,34 +53,12 @@ class UI {
 
 }
 
-function createInventoryTile(e) {
-    let inventory = document.getElementById('inventory');
-    let invButtons = document.getElementById('inventory').children
+function createInventoryTiles(e) {
+    let inventory = document.getElementById('inventory__tiles');
+    let invButtons = document.getElementById('inventory__tiles').children
 
     let punchBtn = document.getElementById('punch')
     let settingsBtn = document.getElementById('settings')
-    let plantBtn = document.getElementById('plant')
-    let plantBtn2 = document.getElementById('plant2')
-    let consumeableBtn = document.getElementById('consume')
-
-    consumeableBtn.addEventListener('click', (e) => {
-
-        for (let i = 0; invButtons.length > i; i++) {
-            if (invButtons[i].classList.contains('active')){
-                invButtons[i].classList.remove('active');
-            };
-        };
-
-        if (e.target.classList.contains('inventory_img')) {
-            e.target.parentElement.classList.add('active')
-        } else {
-            e.target.classList.add('active')
-        }
-
-        game.player.mouseButtonAction = 'consume';
-        game.player.activeItem = 0;
-
-    })
 
     punchBtn.addEventListener('click', (e) => {
 
@@ -121,94 +99,32 @@ function createInventoryTile(e) {
 
     })
 
-    plantBtn.addEventListener('click', (e) => {
-        for (let i = 0; invButtons.length > i; i++) {
-            if (invButtons[i].classList.contains('active')){
-                invButtons[i].classList.remove('active');
-            };
-        };
-
-        let button;
-
-        if (e.target.classList.contains('inventory_img')) {
-            button = e.target.parentElement;
-            e.target.parentElement.classList.add('active');
-        } else {
-            button = e.target;
-            e.target.classList.add('active');
-        }
-
-        // data-inv-btn-item-id
-        if (button.dataset.invBtnItem === 'seed') {
-
-            game.player.mouseButtonAction = 'place';
-            game.player.seedId = parseInt(button.dataset.invBtnItemId);
-
-
-            console.log('seed ID', game.player.seedId)
-        }
-
-
-        game.player.mouseButtonAction = 'plant';
-    })
-
-    plantBtn2.addEventListener('click', (e) => {
-        for (let i = 0; invButtons.length > i; i++) {
-            if (invButtons[i].classList.contains('active')){
-                invButtons[i].classList.remove('active');
-            };
-        };
-
-        let button;
-
-        if (e.target.classList.contains('inventory_img')) {
-            button = e.target.parentElement;
-            e.target.parentElement.classList.add('active');
-        } else {
-            button = e.target;
-            e.target.classList.add('active');
-        }
-
-        // data-inv-btn-item-id
-        if (button.dataset.invBtnItem === 'seed') {
-
-            game.player.mouseButtonAction = 'place';
-            game.player.seedId = parseInt(button.dataset.invBtnItemId);
-
-
-            console.log('seed ID', game.player.seedId)
-        }
-
-
-        game.player.mouseButtonAction = 'plant';
-    })
-
-    for (let i = 0; game.player.inventory.length > i; i++) {
-        console.log(game.player.inventory[i])
+    for (let i = 0; game.player.inventory.blocks.length > i; i++) {
+        console.log(game.player.inventory.blocks[i])
 
         let invTile = document.createElement('div');
-        invTile.classList.add('inventory_tile')
+        invTile.classList.add('inventory__tiles__tile')
         invTile.classList.add('blocks')
 
         let tileImg = document.createElement('img');
-        tileImg.src = blockmap[game.player.inventory[i][0]].texture;
+        tileImg.src = blockmap[game.player.inventory.blocks[i][0]].texture;
         tileImg.classList.add('inventory_img')
 
         let blockCount = document.createElement('p')
-        blockCount.innerHTML = game.player.inventory[i][1]
+        blockCount.innerHTML = game.player.inventory.blocks[i][1]
         blockCount.classList.add('item-count')
 
         invTile.appendChild(tileImg)
         invTile.appendChild(blockCount)
 
 
-        invTile.dataset.invBtnItem = blockmap[game.player.inventory[i][0]].type;
-        invTile.dataset.invBtnItemId = game.player.inventory[i][0]
+        invTile.dataset.invBtnItem = blockmap[game.player.inventory.blocks[i][0]].type;
+        invTile.dataset.invBtnItemId = game.player.inventory.blocks[i][0]
 
 
         invTile.addEventListener('click', (e) => {
 
-            let invButtons = document.getElementById('inventory').children
+            let invButtons = document.getElementById('inventory__tiles').children
             for (let i = 0; invButtons.length > i; i++) {
                 if (invButtons[i].classList.contains('active')){
                     invButtons[i].classList.remove('active');
@@ -217,15 +133,13 @@ function createInventoryTile(e) {
 
             console.log(e.target);
 
-            let button;
+            let button = e.target;
 
-            if (e.target.classList.contains('inventory_img')) {
+            if (e.target.dataset.invBtnItem === undefined) {
                 button = e.target.parentElement;
-                e.target.parentElement.classList.add('active');
-            } else {
-                button = e.target;
-                e.target.classList.add('active');
             }
+
+            button.classList.add('active');
 
             console.log('item', button.dataset.invBtnItem)
             console.log('itemId', button.dataset.invBtnItemId)
@@ -237,13 +151,29 @@ function createInventoryTile(e) {
 
             }
 
-            console.log('player', game.player.mouseButtonAction, game.player.activeItem)
+        });
 
-            // let iteminfoPopup = document.createElement('span')
-            // iteminfoPopup.classList.add('iteminfo_popup')
-            // iteminfoPopup.innerHTML = blockmap[parseInt(button.dataset.invBtnItemId)].name + ' (Complexity: ' + blockmap[parseInt(button.dataset.invBtnItemId)].complexity + ')'
+        inventory.appendChild(invTile);
 
-            // button.appendChild(iteminfoPopup)
+    }
+
+    for (let i = 0; 5 > i; i++) {
+        let invTile = document.createElement('div');
+        invTile.classList.add('inventory__tiles__tile')
+        invTile.classList.add('empty')
+
+        invTile.addEventListener('click', (e) => {
+
+            let invButtons = document.getElementById('inventory__tiles').children
+            for (let i = 0; invButtons.length > i; i++) {
+                if (invButtons[i].classList.contains('active')){
+                    invButtons[i].classList.remove('active');
+                };
+            };
+
+            let button = e.target;
+
+            button.classList.add('active');
 
         });
 

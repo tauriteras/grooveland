@@ -25,6 +25,15 @@ body {
     background-color: green;
 }
 
+#exit-button {
+    background-color: red;
+
+    margin: 1rem;
+    padding: 0.5rem;
+
+    border-radius: 0.25rem;
+}
+
 .popup {
 
     position: relative;
@@ -57,17 +66,24 @@ body {
 
 .active {
     box-shadow: 0 0 0.5rem rgba(229, 232, 48, 0.5);
+    border-color: gold;
 }
 
 .item-count {
     font-weight: bold;
     color: white;
 }
+  /* Handle */
 
 #inventory {
     /* opacity: 0; */
 
-    width: 95vw;
+    display: flex;
+    justify-content: center;
+
+    padding-top: 1rem;
+
+    width: fit-content;
     height: 20vh;
 
     position: absolute;
@@ -84,43 +100,63 @@ body {
 
     box-shadow: 0 0 2rem rgba(0, 0, 0, 0.5);
 
+    overflow: scroll;
+    overflow-x: hidden;
+}
+
+#inventory::-webkit-scrollbar-thumb {
+    background: #af2424;
+  }
+  
+  /* Handle on hover */
+  #inventory::-webkit-scrollbar-thumb:hover {
+    background: #4d0303;
+  }
+
+#inventory__tiles {
+
+    width: 90vw;
+    margin: 0 auto;
+
+    padding: 0 5rem;
 
     display: grid;
     grid-template-columns: repeat(10, 1fr);
 
-    row-gap: 1rem;
+    gap: 1vw;
 
-    padding: 0 1rem;
-    padding-top: 2rem;
-
-    overflow: scroll;
 }
 
-.inventory_tile {
-    height: 10vh;
+.inventory__tiles__tile {
+
     aspect-ratio: 1/1;
+    width: 7vw;
 
     border-radius: 0.25rem;
-    border: 3px solid;
+    border: 2px solid;
 
     display: flex;
-    flex-direction: column;
-    justify-content: center;
     align-items: center;
-
+    justify-content: center;
 }
 
-.inventory_tile > img {
-    width: 70%;
+.inventory__tiles__tile > img {
+    width: 80%;
     aspect-ratio: 1/1;
-
-    border-radius: 0.25rem;
 }
 
 .utility {
 
     border-color: rgb(66, 153, 44);
     background-color: rgb(27, 110, 27);
+
+}
+
+.empty {
+
+    border-color: rgb(136, 135, 135);
+    background-color: rgb(46, 46, 46);
+
 
 }
 
@@ -184,3 +220,24 @@ body {
         opacity: 0;
     }
 }
+
+
+
+::-webkit-scrollbar {
+    width: 10px;
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.5);
+  }
+
+    /* Handle */
+    ::-webkit-scrollbar-thumb {
+        background: #888;
+      }
+      
+      /* Handle on hover */
+      ::-webkit-scrollbar-thumb:hover {
+        background: #555;
+      }

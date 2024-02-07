@@ -21,23 +21,22 @@
          joinhWorld()
         "
         >Go</button>
+
+        <button id="exit-button" onclick="
+         exitWorld()
+        ">Exit World</button>
     </div>
 
     <div id="inventory">
-        <div id="punch" class="inventory_tile utility active" data-inv-btn-item="punch" data-inv-btn-item-type="utility" data-inv-btn-item-id="x">
-            <img src="./Game/Images/Assets/punch_icon.png" class="inventory_img"/>
-        </div>
-        <div id="settings" class="inventory_tile clothing" data-inv-btn-item="settings" data-inv-btn-item-type="utility" data-inv-btn-item-id="x">
-            <img src="./Game/Images/Assets/block_settings.png" class="inventory_img"/>
-        </div>
-        <div id="plant" class="inventory_tile seeds" data-inv-btn-item="seed" data-inv-btn-item-type="seed" data-inv-btn-item-id="1">
-            <img src="./Game/Images/Seeds/bedrock_seed.png" class="inventory_img"/>
-        </div>
-        <div id="plant2" class="inventory_tile seeds" data-inv-btn-item="seed" data-inv-btn-item-type="seed" data-inv-btn-item-id="2">
-            <img src="./Game/Images/Seeds/dirt_seed.png" class="inventory_img"/>
-        </div>
-        <div id="consume" class="inventory_tile consumeables" data-inv-btn-item="lsd" data-inv-btn-item-type="consumeable" data-inv-btn-item-id="x">
-            <img src="./Game/Images/Consumables/lsd.png" class="inventory_img"/>
+        <div id="inventory__tiles">
+       
+            <div id="punch" class="inventory__tiles__tile utility active" data-inv-btn-item="punch" data-inv-btn-item-type="utility" data-inv-btn-item-id="x">
+                <img src="./Game/Images/Assets/punch_icon.png" class="inventory_img"/>
+            </div>
+            <div id="settings" class="inventory__tiles__tile clothing" data-inv-btn-item="settings" data-inv-btn-item-type="utility" data-inv-btn-item-id="x">
+                <img src="./Game/Images/Assets/block_settings.png" class="inventory_img"/>
+            </div>
+            
         </div>
     </div>
 
@@ -46,12 +45,19 @@
 <script src="./Game/Index.js" type="module"></script>
 <script>
 
-function joinhWorld() {
-    console.log('btn ok 1')
-    let searchEvent = new Event('request-world-data');
-    document.dispatchEvent(searchEvent);
-}
+    function joinhWorld() {
 
+        let searchEvent = new Event('request-world-data');
+        document.dispatchEvent(searchEvent);
+
+    }
+
+    function exitWorld() {
+
+        let exitEvent = new Event('exit-world-event');
+        document.dispatchEvent(exitEvent);
+
+    }
 
 </script>
 

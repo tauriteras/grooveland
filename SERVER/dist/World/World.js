@@ -75,8 +75,6 @@ class World {
 
 function loadWeather() {
 
-     if (game.scene === undefined) { return; }
-
      const backgroundPlane = new THREE.PlaneGeometry(105, 65);
      const backgroundMaterial = new THREE.MeshBasicMaterial({ 
           map: new THREE.TextureLoader().load('../Images/background.png'),
@@ -162,6 +160,7 @@ function loadBlocks(blocks) {
           blockOBJECT.material.map = new THREE.TextureLoader().load(blockmap[blockID].texture);
 
           blockOBJECT.userData.name = blockmap[blockID].name;
+          blockOBJECT.userData.blockID = blockID;
           blockOBJECT.userData.objectType = blockmap[blockID].type;
           blockOBJECT.userData.sub_type = blockmap[blockID].sub_type;
           blockOBJECT.userData.collides = blockmap[blockID].collides;

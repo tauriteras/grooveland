@@ -4,7 +4,10 @@ import { game } from '../Index';
 import AudioEngine from '../AudioHandler/AudioEngine';
 import blockmap from '../Data/blockdata';
 
-import inventoryFile from '../Data/inventory.json'
+import inventoryData from '../Data/inventory.json'
+
+console.log('inv', inventoryData)
+console.log('inv blocks', inventoryData.blocks)
 
 // import TextSprite from '@seregpie/three.text-sprite';
 
@@ -15,7 +18,7 @@ class Player {
 
         this.mouseButtonAction = 'punch';
 
-        this.inventory = inventoryFile;
+        this.inventory = inventoryData;
         this.activeItem = 0;
         this.seedId = 0;
 
@@ -582,6 +585,8 @@ function breakBlock(block) {
 
     }
 
+    block.userData.blockID = '0';
+
     block.userData.breakable = false;
     block.userData.interactable = false;
     block.userData.interactable_type = 'none';
@@ -679,7 +684,7 @@ function spawnSeed(block, x, y) {
 
     const seedGeometry = new THREE.PlaneGeometry(0.5, 0.5)
     const seedMaterial = new THREE.MeshBasicMaterial({ 
-        map: new THREE.TextureLoader().load('../Images/Seeds/dirt_seed.png'),
+        map: new THREE.TextureLoader().load('../Images/Seeds/' +  block.userData.blockID + '.png'),
         transparent: true
     });
     const seed = new THREE.Mesh(seedGeometry, seedMaterial);
@@ -691,7 +696,9 @@ function spawnSeed(block, x, y) {
     seed.position.y = (y + randomizer[1]);
     seed.position.z = 0.1
 
-    seed.userData.name = 'seed'
+    seed.userData.name = 'dropped_seed'
+    seed.userData.ID = '1'
+    seed.userData.count = '1'
 
     game.scene.add(seed)
     game.world.droppedItems.push(seed)
@@ -700,7 +707,7 @@ function spawnSeed(block, x, y) {
 
 function spawnBlock(block, x, y) {
 
-    // console.log('spawn seed', block, x, y)
+    console.log('spawn block', block, x, y)
 
     const blockGeometry = new THREE.PlaneGeometry(0.5, 0.5)
     const blockMaterial = new THREE.MeshBasicMaterial({ 
@@ -717,6 +724,8 @@ function spawnBlock(block, x, y) {
     droppedBlock.position.z = 0.1
 
     droppedBlock.userData.name = 'dropped_block'
+    droppedBlock.userData.ID = block.userData.blockID
+    droppedBlock.userData.count = '1'
 
     game.scene.add(droppedBlock)
     game.world.droppedItems.push(droppedBlock)
@@ -725,10 +734,6 @@ function spawnBlock(block, x, y) {
 
     const mixer = new THREE.AnimationMixer(droppedBlock);
     const clips = droppedBlock.animations;
-
-
-
-
 
 }
 

@@ -42,7 +42,7 @@ let blockmap = {
             right: true
         },
 
-        breakable: false,
+        breakable: true,
         interactable: false,
         interactable_type: 'none'
 
@@ -115,7 +115,7 @@ let blockmap = {
             right: false
         },
 
-        breakable: false,
+        breakable: true,
         interactable: true,
         interactable_type: 'click'
 
@@ -220,7 +220,32 @@ let blockmap = {
         breakable: true,
         interactable: false,
         interactable_type: 'none'
+    },
+
+    9: {
+        name: 'Platform',
+        texture: '../Images/Blocks/platform.png',
+        type: 'Block',
+        sub_type: 'Music',
+
+        complexity: 1,
+
+        hardness: 10,
+        punchCount: 0,
+
+        collides: {
+            top: true,
+            bottom: false,
+            left: false,
+            right: false
+        },
+
+        breakable: true,
+        interactable: false,
+        interactable_type: 'none'
+
     }
+
 };
 
 export default blockmap;
