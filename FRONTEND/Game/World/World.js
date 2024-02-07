@@ -157,7 +157,7 @@ function loadBlocks(blocks) {
           blockOBJECT.userData.interactable_type = blockmap[blockID].interactable_type;
           blockOBJECT.userData.interacted = false;
 
-          blockOBJECT.material.map = new THREE.TextureLoader().load(blockmap[blockID].texture);
+          blockOBJECT.material.map = new THREE.TextureLoader().load('../Images/Blocks/' + blockID + '.png');
 
           blockOBJECT.userData.name = blockmap[blockID].name;
           blockOBJECT.userData.blockID = blockID;

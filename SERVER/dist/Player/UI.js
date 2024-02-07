@@ -107,7 +107,7 @@ function createInventoryTiles(e) {
         invTile.classList.add('blocks')
 
         let tileImg = document.createElement('img');
-        tileImg.src = blockmap[game.player.inventory.blocks[i][0]].texture;
+        tileImg.src = '../Images/Blocks/' + game.player.inventory.blocks[i][0] + '.png';
         tileImg.classList.add('inventory_img')
 
         let blockCount = document.createElement('p')

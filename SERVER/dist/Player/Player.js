@@ -711,7 +711,7 @@ function spawnBlock(block, x, y) {
 
     const blockGeometry = new THREE.PlaneGeometry(0.5, 0.5)
     const blockMaterial = new THREE.MeshBasicMaterial({ 
-        map: new THREE.TextureLoader().load('../Images/Blocks/dirt.png'),
+        map: new THREE.TextureLoader().load('../Images/Blocks/' + block.userData.blockID + '.png'),
         transparent: true
     });
     const droppedBlock = new THREE.Mesh(blockGeometry, blockMaterial);

@@ -224,7 +224,6 @@ let blockmap = {
 
     9: {
         name: 'Platform',
-        texture: '../Images/Blocks/platform.png',
         type: 'Block',
         sub_type: 'Music',
 
