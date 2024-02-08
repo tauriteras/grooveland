@@ -109,6 +109,7 @@ function loadBackgroundBlocks(backgroundBlocks) {
 
           backgroundBlockOBJECT.position.x = backgroundBlockX;
           backgroundBlockOBJECT.position.y = backgroundBlockY;
+          backgroundBlockOBJECT.userData.blockID = backgroundBlockID;
 
           backgroundBlockGroup.add(backgroundBlockOBJECT);
 

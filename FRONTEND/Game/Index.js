@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 
-import { io } from 'socket.io-client';
+import { Socket, io } from 'socket.io-client';
 
 import Camera from './Player/Camera.js';
 import World from './World/World.js';
@@ -50,6 +50,8 @@ class Game {
 
           this.server = null;
           this.connected = false;
+
+          this.blocksInBreaking = [];
 
      }
 
@@ -124,11 +126,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
           console.log('exit')
 
-          let world = game.scene.children
-
-          for (let i = 0; i < world.length; i++) {
-               game.scene.remove(world[i])
-          }
+          saveWorld();
 
      })
 
@@ -567,6 +565,32 @@ function updateInvTileCount(ID, newCount) {
           }
      }
 }
+
+function saveWorld() {
+
+     let bgGroup = game.scene.children[3].children
+     let blocksGroup = game.scene.children[2].children
+
+     let worldData = [];
+
+     console.log("saving")
+
+     for (let x = 0; x < bgGroup.length; x++) {
+
+          for (let i = 0; i < blocksGroup.length; i++) {
+
+               worldData += [blocksGroup[i].userData.blockID, bgGroup[x].userData.blockID]
+     
+          }
+
+     }
+
+     console.log("emit")
+
+     game.server.emit("saveWorld", 'loll', worldData);
+
+}
+
 
 
 export { game };

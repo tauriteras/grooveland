@@ -8,6 +8,7 @@ import { Server } from "socket.io";
 import { on } from "events";
 
 import WorldGenerator from "../SERVER/WorldGenerator.js";
+
 const worldGenerator = new WorldGenerator();
 
 const port = 3069;
@@ -60,6 +61,18 @@ io.on("connection", (socket) => {
 
     socket.on("disconnect", () => {
         console.log("A user disconnected");
+    });
+
+    socket.on("saveWorld", (worldName, worldData) => {
+
+        console.log("Saving!")
+
+        fs.writeFile('../SERVER/sample.txt', worldData, err => {
+            if (err) {
+                 console.error(err);
+            }
+        });
+
     });
 
     socket.on("getWorld", (worldName) => {

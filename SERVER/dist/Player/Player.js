@@ -15,7 +15,7 @@ class Player {
     constructor() {
 
         name: null;
-
+        
         this.mouseButtonAction = 'punch';
 
         this.inventory = inventoryData;
@@ -275,6 +275,9 @@ class Player {
             return;
         }
 
+        console.log(this.inventory.blocks)
+        if (this.inventory.blocks[parseInt(this.activeItem)][1] <= 0) { return; }
+
         if (this.clickedElement.userData.objectType === 'Empty_Block') {
 
             this.audioPlayer.init('../Audio/place_block.wav', false);
@@ -295,6 +298,21 @@ class Player {
             this.clickedElement.material.map = new THREE.TextureLoader().load('../Images/Blocks/' + this.activeItem + '.png');
 
             this.clickedElement.userData.collides = blockmap[this.activeItem].collides;
+
+            this.inventory.blocks[parseInt(this.activeItem)][1] -= 1;
+
+
+            let inventory = document.getElementById('inventory__tiles').children
+
+            for (let i = 0; i < inventory.length; i++) {
+
+                if (inventory[i].dataset.invBtnItemId === this.activeItem) {
+
+                    inventory[i].children[1].innerHTML = this.inventory.blocks[this.activeItem][1]
+                    
+                }
+
+            }
         }
 
     }

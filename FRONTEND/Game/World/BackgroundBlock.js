@@ -1,7 +1,5 @@
 import * as THREE from 'three';
 
-import { game } from '../Index.js';
-
 import blockmap from '../Data/blockdata.js';
 
 class BackgroundBlock {
