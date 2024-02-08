@@ -50,7 +50,7 @@ class BackgroundBlock {
 
         if (blockID === 7) {
 
-            backgroundMaterial.map = new THREE.TextureLoader().load(blockmap[blockID].texture)
+            backgroundMaterial.map = new THREE.TextureLoader().load('../Images/Background blocks/' + blockID + '.png')
 
             backgroundBlock.userData.hardness = blockmap[blockID].hardness;
             backgroundBlock.userData.punchCount = blockmap[blockID].punchCount;

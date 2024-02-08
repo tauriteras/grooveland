@@ -286,12 +286,13 @@ class Player {
             this.clickedElement.userData.interactable_type = blockmap[this.activeItem].interactable_type;
             this.clickedElement.userData.objectType = blockmap[this.activeItem].type;
             this.clickedElement.userData.sub_type = blockmap[this.activeItem].sub_type;
+            this.clickedElement.userData.blockID = this.activeItem;
 
             this.clickedElement.userData.punchCount = 0;
 
             this.clickedElement.material.visible = true;
 
-            this.clickedElement.material.map = new THREE.TextureLoader().load(blockmap[this.activeItem].texture);
+            this.clickedElement.material.map = new THREE.TextureLoader().load('../Images/Blocks/' + this.activeItem + '.png');
 
             this.clickedElement.userData.collides = blockmap[this.activeItem].collides;
         }

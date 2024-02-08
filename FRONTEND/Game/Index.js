@@ -518,6 +518,21 @@ function itemPicker() {
 
           if (object.userData.name === 'dropped_block') {
 
+               let inventory = game.player.inventory.blocks;
+
+               console.log(inventory)
+               console.log(inventory[object.userData.ID])
+               console.log(object.userData)
+
+               let newCount = parseInt(inventory[object.userData.ID][1]) + parseInt(object.userData.count);
+               console.log(newCount)
+
+               inventory[object.userData.ID][1] = newCount;
+
+               game.player.inventory.blocks = inventory;
+
+               updateInvTileCount(object.userData.ID, newCount)
+
                game.scene.remove(object)
 
           }
@@ -533,6 +548,24 @@ function itemPicker() {
      // TODO
      // Yles korjatud asjad inventorysse
 
+}
+
+function updateInvTileCount(ID, newCount) {
+
+     let inventory = document.getElementById('inventory__tiles');
+     let invTiles = inventory.children;
+
+     console.log('inv tiles', invTiles)
+
+     for (let i = 0; i < invTiles.length; i++) {
+          if (invTiles[i].dataset.invBtnItemId == ID) {
+               console.log(invTiles[i])
+               console.log(invTiles[i].children)
+
+               invTiles[i].children[1].innerHTML = newCount;
+             
+          }
+     }
 }
 
 
