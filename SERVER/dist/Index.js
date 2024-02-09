@@ -571,23 +571,11 @@ function saveWorld() {
      let bgGroup = game.scene.children[3].children
      let blocksGroup = game.scene.children[2].children
 
-     let worldData = [];
+     console.log("emi1t")
 
-     console.log("saving")
-
-     for (let x = 0; x < bgGroup.length; x++) {
-
-          for (let i = 0; i < blocksGroup.length; i++) {
-
-               worldData += [blocksGroup[i].userData.blockID, bgGroup[x].userData.blockID]
-     
-          }
-
-     }
+     game.server.emit("saveWorld", "loll", blocksGroup);
 
      console.log("emit")
-
-     game.server.emit("saveWorld", 'loll', worldData);
 
 }
 
