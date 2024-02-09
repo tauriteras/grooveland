@@ -63,19 +63,11 @@ io.on("connection", (socket) => {
         console.log("A user disconnected");
     });
 
-    socket.on("saveWorld", (worldName, blockData, bgData) => {
+    socket.on("saveWorld", (worldName, worldData) => {
 
-        console.log("Saving!", worldName)
+        console.log("Saving!")
 
-        let worldData = [];
-   
-        for (let x = 0; x < bgData.length; x++) {
-             for (let i = 0; i < blockData.length; i++) {
-                  worldData += [blockData[i].userData.blockID, bgData[x].userData.blockID]
-             }
-        }
-
-        fs.writeFile('../SERVER/sample.txt', worldData, err => {
+        fs.writeFile(`../SERVER/worlds/${worldName}`, worldData, err => {
             if (err) {
                  console.error(err);
             }

@@ -2,6 +2,8 @@ import * as THREE from 'three';
 
 import { Socket, io } from 'socket.io-client';
 
+import * as fs from 'fs';
+
 import Camera from './Player/Camera.js';
 import World from './World/World.js';
 import Player from './Player/Player.js';
@@ -568,15 +570,25 @@ function updateInvTileCount(ID, newCount) {
 
 function saveWorld() {
 
+     let worldNameInput = document.getElementById('worldname-input')
+
+     let worldData = []
      let bgGroup = game.scene.children[3].children
      let blocksGroup = game.scene.children[2].children
 
-     console.log("emi1t")
+     for (let i = 0; i < blocksGroup.length; i++) {
+          for (let x = 0; x < bgGroup.length; x++) {
+               worldData.push( blocksGroup[i].userData.blockID , bgGroup[x].userData.blockID )
+          }
+     }
 
-     game.server.emit("saveWorld", "loll", blocksGroup);
+     let world = worldData.toString()
 
      console.log("emit")
 
+     game.server.emit("saveWorld", worldNameInput.value, world);
+
+     console.log("emit 2")
 }
 
 
